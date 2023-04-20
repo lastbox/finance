@@ -4,7 +4,7 @@ import openpyxl
 from datetime import datetime
 
 def get_related_stocks_info(url):
-    response = requests.get(url)
+    response = requests.get(url, verify=False)
     soup = BeautifulSoup(response.text, 'html.parser')
     table = soup.find('table', {'id': 'tRelationStock'})
 
@@ -44,5 +44,5 @@ def get_related_stocks_info(url):
     # Save the workbook to an Excel file
     wb.save(filename)
 
-url = 'https://finance.finup.co.kr/Theme/4435'
+url = 'https://finance.finup.co.kr/Theme/155287'
 get_related_stocks_info(url)
