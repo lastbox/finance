@@ -44,5 +44,9 @@ def get_related_stocks_info(url):
     # Save the workbook to an Excel file
     wb.save(filename)
 
-url = 'https://finance.finup.co.kr/Theme/155287'
+url = 'https://finance.finup.co.kr/Theme/155423'
 get_related_stocks_info(url)
+
+'''
+155423 - 2차전지 소재주
+'''
