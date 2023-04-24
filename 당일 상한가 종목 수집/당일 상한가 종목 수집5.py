@@ -10,11 +10,12 @@ date = now.strftime('%Y-%m-%d %H-%M-%S')
 
 URL = 'https://finance.naver.com/'
 
-raw = requests.get(URL)
+raw = requests.get(URL, verify=False)
 
 html = BeautifulSoup(raw.text,'lxml')
 
 units_up = html.select('#_topItems2>tr')
+print('units_up : %s' % units_up)
 
 wb = openpyxl.Workbook()
 sheet = wb.active
@@ -39,7 +40,8 @@ for unit in units_up[:5]:
     percent_up = unit.select_one('#_topItems2 > tr> td:nth-child(4)')
     code_up = unit.select_one('#_topItems2 > tr > th > a')
     code_up_href = code_up['href']
-    code6 = re.search(r'code=(\d{6})', code_up_href).group(1)
+    print('code_up_href: %s' %code_up_href)
+    code6 = code_up_href[-6:]
 
     up = up.replace('상한가', '↑')
 
