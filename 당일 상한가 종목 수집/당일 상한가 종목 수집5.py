@@ -21,6 +21,10 @@ wb = openpyxl.Workbook()
 sheet = wb.active
 sheet.title = '상한가'
 
+'''
+상한가를 나타내는 아이콘이 있는지 없는지를 확인 True/False를 반환하여 개수를 확인한다.
+'''
+
 row = 1
 sheet.cell(row, 1, '종목 코드')
 sheet.cell(row, 2, '종목 이름')
