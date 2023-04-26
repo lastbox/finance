@@ -1,5 +1,4 @@
 import requests
-import re
 from bs4 import BeautifulSoup
 import openpyxl
 import datetime
@@ -15,7 +14,7 @@ raw = requests.get(URL, verify=False)
 html = BeautifulSoup(raw.text,'lxml')
 
 units_up = html.select('#_topItems2>tr')
-print('units_up : %s' % units_up)
+#print('units_up : %s' % units_up)
 
 wb = openpyxl.Workbook()
 sheet = wb.active
@@ -24,6 +23,8 @@ sheet.title = '상한가'
 '''
 상한가를 나타내는 아이콘이 있는지 없는지를 확인 True/False를 반환하여 개수를 확인한다.
 '''
+check_str = html.find_all('em', attrs={'class':'bu_p bu_pup2'})
+print('check_str:%s'%len(check_str))
 
 row = 1
 sheet.cell(row, 1, '종목 코드')
@@ -37,14 +38,14 @@ sheet.cell(row, 8, '주봉 차트')
 sheet.cell(row, 9, '월봉 차트')
 row += 1
 
-for unit in units_up[:5]:
+for unit in units_up[:len(check_str)]:
     title_up = unit.select_one('#_topItems2 > tr> th > a').text
     price_up = unit.select_one('#_topItems2 > tr> td')
     up = unit.select_one('#_topItems2 > tr > td:nth-child(3)').text
     percent_up = unit.select_one('#_topItems2 > tr> td:nth-child(4)')
     code_up = unit.select_one('#_topItems2 > tr > th > a')
     code_up_href = code_up['href']
-    print('code_up_href: %s' %code_up_href)
+    #print('code_up_href: %s' %code_up_href)
     code6 = code_up_href[-6:]
 
     up = up.replace('상한가', '↑')
@@ -64,7 +65,7 @@ for unit in units_up[:5]:
     news_links = []
     for new in news_up_list[:3]:
         new_title_up = new.find('a',{'class' : 'news_tit'})
-        print("new_title_up.text:%s" % new_title_up.text)
+        #print("new_title_up.text:%s" % new_title_up.text)
         link_up = new.find('a',{'class' : 'api_txt_lines dsc_txt_wrap'})
         news_links.append(link_up['href'])
         sheet.cell(row, 6, '=HYPERLINK("{}","{}")'.format(link_up['href'], new_title_up.text))
