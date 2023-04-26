@@ -41,23 +41,23 @@ for unit in top_money_table[:len(top_money_table)]:
         break
     else:
         market = unit.select_one('#divList > div.table-responsive.board-table > table > tbody > tr > td:nth-child(2) > span.f11px.fVerdana.marginT5').text
-        #print('market:%s'%market)
         code = unit.select_one('#divList > div.table-responsive.board-table > table > tbody > tr > td:nth-child(2) > span.copySelection').text
-        #print('code:%s'%code)
         title = unit.select_one('#divList > div.table-responsive.board-table > table > tbody > tr > td.text-left > a').text
-        #print('title:%s'%title)
         price = unit.select_one('#divList > div.table-responsive.board-table > table > tbody > tr > td.text-right.W80').text
-        print('price:%s'%price)
+        arrow_status = unit.select('#divList > div.table-responsive.board-table > table > tbody > tr > td')
+        
+        if unit.find('i', attrs={'class':'fa fa-caret-down'}):
+            arrow = '(down)'
+        elif unit.find('i', attrs={'class':'fa fa-caret-up'}):
+            arrow = '(up)'
+        
         price_ratio = unit.select_one('#divList > div.table-responsive.board-table > table > tbody > tr > td.text-right.W70').text
-        print('price_ratio:%s'%price_ratio)
         market_cap = unit.select_one('#divList > div.table-responsive.board-table > table > tbody > tr > td:nth-child(8)').text
-        print('market_cap:%s'%market_cap)
-
         sheet.cell(row, 1, market)
         sheet.cell(row, 2, code)
         sheet.cell(row, 3, title)
         sheet.cell(row, 4, price)
-        sheet.cell(row, 5, price_ratio)
+        sheet.cell(row, 5, arrow + ' ' + price_ratio)
         sheet.cell(row, 6, transaction_amount)
         sheet.cell(row, 7, market_cap)
         row += 1
