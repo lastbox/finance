@@ -1,8 +1,12 @@
 import requests
-
+import re
 from bs4 import BeautifulSoup
+import openpyxl
+import datetime
+import re
 
- 
+now = datetime.datetime.now()
+date = now.strftime('%Y-%m-%d %H-%M-%S')
 
 def get_bs_obj():
 
